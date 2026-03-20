@@ -59,7 +59,6 @@ export const parseWhatsAppChat = (rawText) => {
 
       currentMessage = {
         date,
-        time,
         sender,
         message: content,
         links: extractLinks(content),
@@ -78,7 +77,24 @@ export const parseWhatsAppChat = (rawText) => {
     }
   });
 
-  return messages;
+  // Post-processing according to user rules:
+  // 1. Remove rows with less than five words in the task description
+  // 2. Remove duplicate rows if date and message are the same (except if categories are different - though message usually implies category)
+  const seen = new Set();
+  const processedMessages = messages.filter((m) => {
+    // Word count check: Only count items that contain at least one alphanumeric character
+    const words = m.message.trim().split(/\s+/).filter(w => /[a-zA-Z0-9]/.test(w));
+    if (words.length < 5) return false;
+
+    // Duplicate check (Date + Category + Message)
+    const key = `${m.date}|${m.category}|${m.message}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+
+    return true;
+  });
+
+  return processedMessages;
 };
 
 const extractLinks = (text) => {

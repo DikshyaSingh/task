@@ -116,7 +116,6 @@ export const ChatTable = ({ data }) => {
                         <span className="text-neutral-900 dark:text-white leading-relaxed">
                           {item.message}
                         </span>
-                        <span className="text-[10px] text-neutral-400 font-normal">at {item.time}</span>
                       </div>
                     </td>
                     <td className={`px-4 py-5 border-r dark:border-neutral-800 text-center ${categoryStyle.bgColor}`}>

@@ -2,7 +2,7 @@
 export const exportToCSV = (data, fileName = 'whatsapp_work_log.csv') => {
   if (!data || data.length === 0) return;
 
-  const headers = ['Date', 'Time', 'Sender', 'Message', 'Category', 'Links'];
+  const headers = ['Date', 'Sender', 'Message', 'Category', 'Links'];
   const csvRows = [];
 
   csvRows.push(headers.join(','));
@@ -10,7 +10,6 @@ export const exportToCSV = (data, fileName = 'whatsapp_work_log.csv') => {
   data.forEach((row) => {
     const values = [
       row.date,
-      row.time,
       row.sender,
       `"${row.message.replace(/"/g, '""')}"`,
       row.categoryLabel || row.category,
